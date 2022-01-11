@@ -6,6 +6,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import entities.createSession;
+import entities.dataGlobal;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.Assert;
@@ -18,6 +19,7 @@ public class authSteps {
     createSession reqBody = new createSession();
     private RequestSpecification request;
     private Response response;
+    String token;
 
 
     @Given("^I set request with \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -27,7 +29,7 @@ public class authSteps {
         reqBody.setPassword(password);
     }
 
-    @And("I use header auth")
+    @And("I use header")
     public void iUseHeaderAuth() {
 
         request = given().header("Content-Type", "application/json");
@@ -41,17 +43,16 @@ public class authSteps {
 
     }
 
+
     @Then("I get status code 200")
     public void iGetStatusCode() {
         String responseJson = response.then().extract().body().asString();
         String token = from(responseJson).get("token");
-
-        System.out.println("=================================");
+        System.out.println("--------------CreateToken-----------------");
         System.out.println("El token es: "+token);
-        System.out.println("=================================");
         Assert.assertNotNull(token);
         Assert.assertEquals(200,response.statusCode());
-
+        dataGlobal.setToken(token);
     }
 
 }

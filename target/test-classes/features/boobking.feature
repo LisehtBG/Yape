@@ -26,25 +26,24 @@ Feature: Booking client
 
 
   Scenario Outline: Update Booking
-    Given The client with date  "<firstname>", "<lastname>","<totalprice>", "<depositpaid>", "<checkin>", "<checkout>". "<additionalneeds>"
+    Given The client want update  data with  "<firstname>", "<lastname>","<totalprice>", "<depositpaid>", "<checkin>", "<checkout>". "<additionalneeds>"
     When I call  put request UpdateBooking
-    Then I get booking information for client
+    Then I get boocking update
     Examples:
       | firstname | lastname | totalprice | depositpaid | checkin    | checkout   | additionalneeds |
       | Jim       | Brown    | 111      | true        | 2018-01-01 | 2019-01-01 |Breakfast        |
 
 
-    Scenario Outline: PartialUpdateBooking
-      Given The client "<firstname>" and lastname "<lastname>" want to update booking id  "<id>"
+  Scenario Outline: PartialUpdateBooking
+      Given The client "<firstname>" and lastname "<lastname>" want to update booking with id  "<id>"
       When I call  path request PartialUpdateBooking
       Then I get Update booking information for client
       Examples:
         | firstname | lastname | id |
         | James     | Brown    | 2  |
 
-    Scenario Outline: Delete Booking
-      Given The booking is "<id>"
-      And I set authorization
+  Scenario Outline: Delete Booking
+      Given The client have  "<id>" booking
       When I call delete request DeleteBooking
       Then I get status code 201
       Examples:
